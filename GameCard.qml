@@ -51,7 +51,7 @@ Item {
                 anchors.fill: parent
                 source: {
                     if (gameData && gameData.assets) {
-                        return gameData.assets.background || gameData.assets.screenshot || "";
+                        return gameData.assets.poster || gameData.assets.screenshot || "";
                     }
                     return "";
                 }
