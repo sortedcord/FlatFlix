@@ -50,12 +50,18 @@ Item {
                 id: screenshot
                 anchors.fill: parent
                 source: {
-                    if (gameData && gameData.assets) {
-                        return gameData.assets.poster || gameData.assets.screenshot || "";
-                    }
-                    return "";
-                }
-                fillMode: Image.PreserveAspectCrop
+    if (!gameData || !gameData.assets)
+        return "";
+
+    // Expanded state AND no video
+    if (isCurrentItem && !compactMode) {
+        // Prefer screenshot in expanded mode
+        return gameData.assets.screenshot || gameData.assets.poster || gameData.assets.boxFront || "";
+    }
+
+    // Normal state: default behaviour
+    return gameData.assets.poster || gameData.assets.boxFront || gameData.assets.screenshot || "";
+}                fillMode: Image.PreserveAspectCrop
                 asynchronous: true
                 visible: false
                 opacity: 1.0
@@ -450,7 +456,7 @@ Item {
             fillMode: Image.PreserveAspectFit
             asynchronous: true
             mipmap: true
-            visible: compactMode && source != "" && !showEmptyCard
+            visible: false 
         }
 
         Item {

@@ -31,7 +31,6 @@ FocusScope {
     property var currentLevel: ({})
     property real levelProgress: 0
 
-
     property var currentScreen: "main"
     property var previousScreen: "main"
     property var previousFocusState: null
@@ -39,7 +38,10 @@ FocusScope {
     property bool statsScreenActive: false
 
     Behavior on themeOpacity {
-        NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutCubic
+        }
     }
 
     function handleSectionChangeFromTopBar(newSection) {
@@ -72,7 +74,8 @@ FocusScope {
     }
 
     function showGameInfo() {
-        if (gameInfoVisible) return;
+        if (gameInfoVisible)
+            return;
 
         //console.log("Theme: Showing game info");
 
@@ -175,7 +178,7 @@ FocusScope {
             }
         }
 
-        recentGames.sort(function(a, b) {
+        recentGames.sort(function (a, b) {
             return b.lastPlayedTime - a.lastPlayedTime;
         });
 
@@ -188,7 +191,7 @@ FocusScope {
             shortName: "history",
             games: {
                 count: recentGames.length,
-                get: function(index) {
+                get: function (index) {
                     return index >= 0 && index < recentGames.length ? recentGames[index].game : null;
                 }
             },
@@ -214,11 +217,11 @@ FocusScope {
         }
 
         var favoritesCollection = {
-            name: "Mi FlatFlix",
+            name: "Favorites",
             shortName: "favorite",
             games: {
                 count: favoriteGames.length,
-                get: function(index) {
+                get: function (index) {
                     return index >= 0 && index < favoriteGames.length ? favoriteGames[index] : null;
                 }
             },
@@ -387,11 +390,13 @@ FocusScope {
         enabled: topBarVisible
 
         Behavior on opacity {
-            NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+            NumberAnimation {
+                duration: 300
+                easing.type: Easing.OutCubic
+            }
         }
 
-
-        onSectionSelected: function(index) {
+        onSectionSelected: function (index) {
             if (root && typeof root.handleSectionChangeFromTopBar === "function") {
                 root.handleSectionChangeFromTopBar(index);
             } else {
@@ -508,7 +513,10 @@ FocusScope {
                         radius: parent.radius
                         color: "#CCFF0000"
                         Behavior on width {
-                            NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+                            NumberAnimation {
+                                duration: 300
+                                easing.type: Easing.OutCubic
+                            }
                         }
                     }
                 }
@@ -617,8 +625,7 @@ FocusScope {
     function showLevelDetails() {
         if (typeof showStatsScreen === "function") {
             showStatsScreen();
-        }
-        else if (levelTooltip.visible) {
+        } else if (levelTooltip.visible) {
             levelTooltip.visible = false;
         } else {
             levelTooltip.x = userProgress.x + userProgress.width / 2 - levelTooltip.width / 2;
@@ -632,9 +639,9 @@ FocusScope {
     }
 
     function showStatsScreen() {
-        previousScreen = currentScreen
-        currentScreen = "stats"
-        statsScreenActive = true
+        previousScreen = currentScreen;
+        currentScreen = "stats";
+        statsScreenActive = true;
 
         previousFocusState = {
             collectionIndex: currentCollectionIndex,
@@ -654,41 +661,40 @@ FocusScope {
             gameInfoState: gameInfoVisible ? {
                 currentButtonIndex: gameInfoComponent.currentButtonIndex
             } : null
-        }
+        };
 
-        statsScreenLoader.active = true
-        themeOpacity = 0.3
-        topBarVisible = false
+        statsScreenLoader.active = true;
+        themeOpacity = 0.3;
+        topBarVisible = false;
     }
 
-
     function returnFromStatsScreen() {
-        currentScreen = previousScreen
-        statsScreenActive = false
-        themeOpacity = 1.0
-        topBarVisible = true
+        currentScreen = previousScreen;
+        statsScreenActive = false;
+        themeOpacity = 1.0;
+        topBarVisible = true;
 
         if (previousFocusState) {
-            currentCollectionIndex = previousFocusState.collectionIndex
-            currentGameIndex = previousFocusState.gameIndex
-            topBar.isFocused = previousFocusState.topBarFocused
-            topBarVisible = previousFocusState.topBarVisible
+            currentCollectionIndex = previousFocusState.collectionIndex;
+            currentGameIndex = previousFocusState.gameIndex;
+            topBar.isFocused = previousFocusState.topBarFocused;
+            topBarVisible = previousFocusState.topBarVisible;
 
             if (previousFocusState.searchState && searchComponent) {
-                searchComponent.keyboardFocused = previousFocusState.searchState.keyboardFocused
-                searchComponent.genreListFocused = previousFocusState.searchState.genreListFocused
-                searchComponent.resultsGridFocused = previousFocusState.searchState.resultsGridFocused
-                searchComponent.selectedKeyRow = previousFocusState.searchState.selectedKeyRow
-                searchComponent.selectedKeyCol = previousFocusState.searchState.selectedKeyCol
-                searchComponent.selectedGenreIndex = previousFocusState.searchState.selectedGenreIndex
-                searchComponent.selectedResultIndex = previousFocusState.searchState.selectedResultIndex
-                searchComponent.searchText = previousFocusState.searchState.searchText
+                searchComponent.keyboardFocused = previousFocusState.searchState.keyboardFocused;
+                searchComponent.genreListFocused = previousFocusState.searchState.genreListFocused;
+                searchComponent.resultsGridFocused = previousFocusState.searchState.resultsGridFocused;
+                searchComponent.selectedKeyRow = previousFocusState.searchState.selectedKeyRow;
+                searchComponent.selectedKeyCol = previousFocusState.searchState.selectedKeyCol;
+                searchComponent.selectedGenreIndex = previousFocusState.searchState.selectedGenreIndex;
+                searchComponent.selectedResultIndex = previousFocusState.searchState.selectedResultIndex;
+                searchComponent.searchText = previousFocusState.searchState.searchText;
 
                 searchComponent.forceActiveFocus();
             }
 
             if (previousFocusState.gameInfoState && gameInfoComponent.visible) {
-                gameInfoComponent.currentButtonIndex = previousFocusState.gameInfoState.currentButtonIndex
+                gameInfoComponent.currentButtonIndex = previousFocusState.gameInfoState.currentButtonIndex;
                 gameInfoComponent.forceActiveFocus();
             }
         }
@@ -766,34 +772,37 @@ FocusScope {
             Item {
                 id: firstCollectionContainer
                 width: parent.width
-                height: parent.height * 0.7
+                height: parent.height * 0.95
                 anchors {
                     top: parent.top
                     left: parent.left
                     right: parent.right
                 }
 
-                Text {
+                Image {
                     id: collectionTitle
                     anchors {
                         top: parent.top
                         left: parent.left
                     }
-                    text: {
-                        var collection = getCurrentCollection();
-                        return collection ? collection.name : "";
+
+                    source: {
+                        const c = getCurrentCollection();
+                        return c ? "assets/systems/" + c.shortName + ".png" : "";
                     }
-                    font.family: global.fonts.sans
-                    font.pixelSize: root.height * 0.04
-                    font.bold: true
-                    color: "white"
+
+                    width: root.height * 0.18
+                    height: width
+                    fillMode: Image.PreserveAspectFit
+                    asynchronous: true
+                    mipmap: true
                 }
 
                 Row {
                     id: contentRow
                     anchors {
                         top: collectionTitle.bottom
-                        topMargin: 15
+                        topMargin: -30
                         left: parent.left
                         right: parent.right
                         bottom: parent.bottom
@@ -802,15 +811,15 @@ FocusScope {
 
                     GameCard {
                         id: selectedGame
-                        width: contentRow.width * 0.45
-                        height: contentRow.height * 0.9
+                        width: contentRow.width * 0.4
+                        height: contentRow.height * 0.6
                         gameData: getCurrentGame()
                         isCurrentItem: true
                         showNetflixInfo: true
                         topBarFocused: topBar.isFocused && isCurrentItem
                         onGameSelected: {
                             if (gameData) {
-                                gameData.launch()
+                                gameData.launch();
                             }
                         }
                     }
@@ -830,7 +839,8 @@ FocusScope {
                                 topBarFocused: topBar.isFocused
                                 gameData: {
                                     var collection = getCurrentCollection();
-                                    if (!collection) return null;
+                                    if (!collection)
+                                        return null;
 
                                     var nextIndex = currentGameIndex + index + 1;
                                     return nextIndex < collection.games.count ? collection.games.get(nextIndex) : null;
@@ -840,22 +850,27 @@ FocusScope {
                                 compactMode: true
                                 showEmptyCard: {
                                     var collection = getCurrentCollection();
-                                    if (!collection) return false;
+                                    if (!collection)
+                                        return false;
 
                                     var nextIndex = currentGameIndex + index + 1;
                                     return nextIndex >= collection.games.count;
                                 }
                                 emptyCardColor: {
                                     var collection = getCurrentCollection();
-                                    if (!collection) return "#141414";
+                                    if (!collection)
+                                        return "#141414";
 
                                     var nextIndex = currentGameIndex + index + 1;
                                     var gamesLeft = collection.games.count - currentGameIndex - 1;
                                     var emptyPosition = index - gamesLeft + 1;
 
-                                    if (emptyPosition === 1) return "#141414";
-                                    else if (emptyPosition === 2) return "#0f0f0f";
-                                    else if (emptyPosition === 3) return "#0a0a0a";
+                                    if (emptyPosition === 1)
+                                        return "#141414";
+                                    else if (emptyPosition === 2)
+                                        return "#0f0f0f";
+                                    else if (emptyPosition === 3)
+                                        return "#0a0a0a";
                                     return "#141414";
                                 }
                                 onGameSelected: {
@@ -875,7 +890,7 @@ FocusScope {
                 height: parent.height * 0.15
                 anchors {
                     top: firstCollectionContainer.bottom
-                    topMargin: -30
+                    topMargin: -250
                     left: parent.left
                     right: parent.right
                 }
@@ -903,46 +918,30 @@ FocusScope {
                         property var metadataItems: [
                             {
                                 text: !isHistoryCollection && gameInfoContainer.currentGame ? root.getFirstGenre(gameInfoContainer.currentGame) : "",
-                                showSeparator: !isHistoryCollection && gameInfoContainer.currentGame &&
-                                (gameInfoContainer.currentGame.releaseYear > 0 ||
-                                gameInfoContainer.currentGame.players > 1 ||
-                                gameInfoContainer.currentGame.rating > 0)
+                                showSeparator: !isHistoryCollection && gameInfoContainer.currentGame && (gameInfoContainer.currentGame.releaseYear > 0 || gameInfoContainer.currentGame.players > 1 || gameInfoContainer.currentGame.rating > 0)
                             },
                             {
-                                text: !isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.releaseYear > 0 ?
-                                gameInfoContainer.currentGame.releaseYear.toString() : "",
-                                showSeparator: !isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.releaseYear > 0 &&
-                                (gameInfoContainer.currentGame.players > 1 ||
-                                gameInfoContainer.currentGame.rating > 0)
+                                text: !isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.releaseYear > 0 ? gameInfoContainer.currentGame.releaseYear.toString() : "",
+                                showSeparator: !isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.releaseYear > 0 && (gameInfoContainer.currentGame.players > 1 || gameInfoContainer.currentGame.rating > 0)
                             },
                             {
-                                text: !isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.players > 1 ?
-                                (gameInfoContainer.currentGame.players + " Players") : "",
-                                showSeparator: !isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.players > 1 &&
-                                gameInfoContainer.currentGame.rating > 0
+                                text: !isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.players > 1 ? (gameInfoContainer.currentGame.players + " Players") : "",
+                                showSeparator: !isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.players > 1 && gameInfoContainer.currentGame.rating > 0
                             },
                             {
-                                text: !isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.rating > 0 ?
-                                (Math.round(gameInfoContainer.currentGame.rating * 100) + "%") : "",
+                                text: !isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.rating > 0 ? (Math.round(gameInfoContainer.currentGame.rating * 100) + "%") : "",
                                 showSeparator: false
                             },
                             {
-                                text: isHistoryCollection && gameInfoContainer.currentGame &&
-                                gameInfoContainer.currentGame.lastPlayed && gameInfoContainer.currentGame.lastPlayed.getTime() > 0 ?
-                                ("Last played: " + Qt.formatDate(gameInfoContainer.currentGame.lastPlayed, "MMM dd, yyyy")) : "",
-                                showSeparator: isHistoryCollection && gameInfoContainer.currentGame &&
-                                (gameInfoContainer.currentGame.playTime > 0 ||
-                                (gameInfoContainer.currentGame.collections && gameInfoContainer.currentGame.collections.count > 0))
+                                text: isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.lastPlayed && gameInfoContainer.currentGame.lastPlayed.getTime() > 0 ? ("Last played: " + Qt.formatDate(gameInfoContainer.currentGame.lastPlayed, "MMM dd, yyyy")) : "",
+                                showSeparator: isHistoryCollection && gameInfoContainer.currentGame && (gameInfoContainer.currentGame.playTime > 0 || (gameInfoContainer.currentGame.collections && gameInfoContainer.currentGame.collections.count > 0))
                             },
                             {
-                                text: isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.playTime > 0 ?
-                                ("Play time: " + Math.floor(gameInfoContainer.currentGame.playTime / 3600) + "h " + Math.floor((gameInfoContainer.currentGame.playTime % 3600) / 60) + "m") : "",
+                                text: isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.playTime > 0 ? ("Play time: " + Math.floor(gameInfoContainer.currentGame.playTime / 3600) + "h " + Math.floor((gameInfoContainer.currentGame.playTime % 3600) / 60) + "m") : "",
                                 showSeparator: isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.collections && gameInfoContainer.currentGame.collections.count > 0
                             },
                             {
-                                text: isHistoryCollection && gameInfoContainer.currentGame &&
-                                gameInfoContainer.currentGame.collections && gameInfoContainer.currentGame.collections.count > 0 ?
-                                ("From: " + gameInfoContainer.currentGame.collections.get(0).name) : "",
+                                text: isHistoryCollection && gameInfoContainer.currentGame && gameInfoContainer.currentGame.collections && gameInfoContainer.currentGame.collections.count > 0 ? ("From: " + gameInfoContainer.currentGame.collections.get(0).name) : "",
                                 showSeparator: false
                             }
                         ]
@@ -992,8 +991,7 @@ FocusScope {
                     top: gameInfoContainer.bottom
                     topMargin: {
                         var collection = getCurrentCollection();
-                        return collection && collection.shortName === "history" ?
-                        parent.height * 0.01 : parent.height * 0.06;
+                        return collection && collection.shortName === "history" ? -100 : -50;
                     }
                     left: parent.left
                     right: parent.right
@@ -1006,23 +1004,49 @@ FocusScope {
                     }
                 }
 
-                Text {
+                Image {
                     id: nextCollectionTitle
                     anchors {
                         top: parent.top
                         left: parent.left
                     }
-                    text: {
+
+                    
+                source: {
                         var nextIndex = currentCollectionIndex + 1;
-                        return nextIndex < allCollections.length ? allCollections[nextIndex].name : "";
+                        var nextCollectionName =
+                            nextIndex < allCollections.length ? allCollections[nextIndex].shortName : "";
+
+                        return nextCollectionName !== ""
+                            ? "assets/systems/" + nextCollectionName + ".png"
+                            : "";
                     }
-                    font.family: global.fonts.sans
-                    font.pixelSize: 18
-                    font.bold: true
-                    color: "white"
-                    opacity: 0.8
-                    visible: currentCollectionIndex + 1 < allCollections.length
+
+                    width: root.height * 0.2
+                    opacity: 0.9
+                    height: width
+                    fillMode: Image.PreserveAspectFit
+                    asynchronous: true
+                    mipmap: true
                 }
+                //
+                // Text {
+                //     id: nextCollectionTitle
+                //     anchors {
+                //         top: parent.top
+                //         left: parent.left
+                //     }
+                //     text: {
+                //         var nextIndex = currentCollectionIndex + 1;
+                //         return nextIndex < allCollections.length ? allCollections[nextIndex].name : "";
+                //     }
+                //     font.family: global.fonts.sans
+                //     font.pixelSize: 18
+                //     font.bold: true
+                //     color: "white"
+                //     opacity: 0.8
+                //     visible: currentCollectionIndex + 1 < allCollections.length
+                // }
 
                 ListView {
                     id: nextCollectionGames
@@ -1075,9 +1099,18 @@ FocusScope {
     Rectangle {
         anchors.fill: parent
         gradient: Gradient {
-            GradientStop { position: 0.0; color: "transparent" }
-            GradientStop { position: 0.8; color: "transparent" }
-            GradientStop { position: 1.0; color: "#030303" }
+            GradientStop {
+                position: 0.0
+                color: "transparent"
+            }
+            GradientStop {
+                position: 0.8
+                color: "transparent"
+            }
+            GradientStop {
+                position: 1.0
+                color: "#030303"
+            }
         }
     }
 
@@ -1158,7 +1191,10 @@ FocusScope {
         enabled: visible
 
         Behavior on opacity {
-            NumberAnimation { duration: 500; easing.type: Easing.OutCubic }
+            NumberAnimation {
+                duration: 500
+                easing.type: Easing.OutCubic
+            }
         }
     }
 
@@ -1359,7 +1395,12 @@ FocusScope {
             }
         } catch (e) {
             totalXP = 0;
-            currentLevel = { level: 1, name: "Rookie", icon: "🥚", xpRequired: 0 };
+            currentLevel = {
+                level: 1,
+                name: "Rookie",
+                icon: "🥚",
+                xpRequired: 0
+            };
             levelProgress = 0;
         }
 
@@ -1367,9 +1408,12 @@ FocusScope {
     }
 
     function showBadgeNotifications(badges) {
-        if (!badges || badges.length === 0) return;
+        if (!badges || badges.length === 0)
+            return;
 
-        badgeNotificationComponent.createObject(root, { badges: badges });
+        badgeNotificationComponent.createObject(root, {
+            badges: badges
+        });
     }
 
     Component {

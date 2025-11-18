@@ -637,7 +637,6 @@ FocusScope {
                 score += 25;
             }
         }
-
         var fieldsMatched = 0;
         if (title.indexOf(searchLower) !== -1) fieldsMatched++;
         if (developer.indexOf(searchLower) !== -1) fieldsMatched++;
